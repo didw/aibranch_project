@@ -2,7 +2,7 @@
 
 ## 프로젝트 개요
 
-신한은행 AI 브랜치 AICC 프로젝트. 상세 내용은 `README.md` 참고.
+신한은행 AI 브랜치 프로젝트. 서브 프로젝트: **AICC 이행**, **전세대출 PI**. 상세 내용은 `README.md` 참고.
 
 ## 회의록 처리 워크플로우
 
@@ -10,9 +10,10 @@
 
 ### 1단계: STT 분석 및 회의록 작성
 
-- 원본 STT: `meeting_stt/YYYYMMDD.txt`
+- 원본 STT: `meeting_stt/YYYYMMDD_[type].txt` (type: daily/weekly/loan 등)
 - 출력: `docs/meetings/YYYY-MM-DD-제목.md`
 - 템플릿: `docs/meetings/_TEMPLATE.md` 형식을 따름
+- 회의록에 `분류` 태그 포함: AICC 이행, 전세대출 PI, 복합 등
 
 STT 변환 시 주의사항:
 - STT는 음성인식 결과로 오탈자, 고유명사 오인식이 많음. 문맥에 맞게 교정할 것
@@ -29,7 +30,8 @@ STT 변환 시 주의사항:
 
 | 문서 | 갱신 조건 | 갱신 내용 |
 |------|-----------|-----------|
-| `status/README.md` | 항상 | 최종 업데이트 날짜, 주요 현황 테이블, 미해결 이슈, 일정, 최근 완료 항목 |
+| `status/README.md` | AICC 관련 | 최종 업데이트 날짜, 주요 현황 테이블, 미해결 이슈, 일정, 최근 완료 항목 |
+| `status/loan-pi.md` | 전세대출 관련 | 과제 현황, 의사결정, 일정 |
 | `docs/decisions/README.md` | 새로운 의사결정이 있을 때 | 테이블에 행 추가 (일자/결정/배경/출처) |
 | `docs/timeline.md` | 중요 마일스톤이 있을 때 | 해당 월 섹션에 항목 추가 |
 | `docs/requirements/README.md` | 범위/요구사항 변경 시 | 업무 범위 테이블, 제약사항 등 갱신 |
@@ -45,16 +47,20 @@ STT 변환 시 주의사항:
 
 ```
 aibranch_project/
-├── status/README.md                   # 현황 대시보드 (가장 자주 갱신)
+├── status/
+│   ├── README.md                      # AICC 현황 대시보드
+│   └── loan-pi.md                     # 전세대출 PI 현황
 ├── docs/
-│   ├── timeline.md                    # 프로젝트 타임라인
-│   ├── requirements/README.md         # 요구사항/범위
-│   ├── decisions/README.md            # 의사결정 기록
+│   ├── timeline.md                    # 통합 타임라인
+│   ├── requirements/README.md         # AICC 요구사항/범위
+│   ├── decisions/README.md            # 의사결정 기록 (서브프로젝트 태그)
 │   └── meetings/
 │       ├── _TEMPLATE.md               # 회의록 템플릿
-│       ├── YYYY-MM-DD-제목.md         # 개별 회의록
-│       └── archive/                   # 과거 회의 요약 (Notion 기반)
-├── meeting_stt/                       # 원본 STT 텍스트
+│       ├── YYYY-MM-DD-데일리.md       # AICC 데일리
+│       ├── YYYY-MM-DD-주간.md         # 주간 (복합)
+│       ├── YYYY-MM-DD-*PI*.md         # 전세대출 PI
+│       └── archive/                   # 과거 회의 요약
+├── meeting_stt/                       # 원본 STT (daily/weekly/loan)
 └── CLAUDE.md                          # 이 파일
 ```
 
